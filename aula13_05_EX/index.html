@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <title>Ex</title>
+</head>
+<body style="background-color: bisque;">
+    <div id="app">
+        <label for="">Numero: </label>
+        <input type="text" v-model.number="valorDigitado1">
+        <br>
+        <br>
+        <label for="">Numero: </label>
+        <input type="text" v-model.number="valorDigitado2">
+
+        <button @click="exibirValor">Clique</button>
+
+        <h1>Resultado {{valorInserido}}</h1>
+        <a href="watch.html" target="_blank" rel="noopener noreferrer">Watch</a>
+    </div>
+
+    
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                valorDigitado1: null,
+                valorDigitado2: null,
+                valorInserido: null,
+            },
+            methods: {
+                exibirValor() {
+                    this.valorInserido = eval(this.valorDigitado1 +'+'+''+ this.valorDigitado2);
+                },   
+            }
+        });
+    </script>
+</body>
+</html>

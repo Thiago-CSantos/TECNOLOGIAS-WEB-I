@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <title>Watch</title>
+</head>
+
+<body style="background-color: bisque;">
+    <div id="app">
+        <input type="text" v-model="country">
+
+        <h1>{{name}}</h1>
+    </div>
+
+
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                country: 'Brazil',
+                name: "Matheus Furlan"
+            },
+            beforeCreate() {
+                console.log("beforeCreate");
+            },
+            created() {
+                console.log("created");
+            },
+            beforeMount() {
+                console.log("beforeMount");
+            },
+            beforeUpdate() {
+                console.log("beforeUpdate");
+            },
+            update() {
+                console.log("update");
+            },
+            beforeDestroy() {
+                console.log("beforeDestroy");
+            },
+            destroy() {
+                console.log("Destroy");
+            },
+            watch: {
+                country: (newValue, oldValue) => {
+                    console.log("New: ", newValue);
+                    console.log("Old: ", oldValue);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
