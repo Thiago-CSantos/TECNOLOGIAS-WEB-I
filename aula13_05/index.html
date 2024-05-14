@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="">
+    <title>Document</title>
+</head>
+<body style="background-color: rgba(0, 0, 0, 0.623); color: azure;">
+    <div id="app">
+        <h1>{{message}}</h1>
+        <p>Meu nome {{person.nome}} e tenho {{person.age}} anos.</p>
+        <span v-html="tagg"></span>
+
+        <h1 v-bind:title="titulo">Texto aleatório</h1>
+
+        <input type="text" v-model="valorDigitado">
+        <button @click="exibirValor()">Clique</button>
+        <button @click="fullname()">Computer</button>
+        
+        <h1>{{valorInserido}}</h1>
+
+
+        <h1>{{fullname}}</h1>
+        <h1>{{fullname}}</h1>
+        <h1>{{fullname}}</h1>
+
+        <h1>{{getName()}}</h1>
+        <h1>{{getName()}}</h1>
+        <h1>{{getName()}}</h1>
+        
+        <a href="ex.html" target="_blank" rel="noopener noreferrer">Exercicio</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+  el: "#app",
+  data: {
+    valorDigitado: '',
+    valorInserido: '',
+    message: 'Hello world',
+    person: {
+        nome: "Thiago",
+        age: 20
+    },
+    tagg: "<button>Clique</button>",
+    titulo: "Titulo criado",
+  },
+    methods: {
+        reverseMessage: function() {
+            this.message = this.message.split('').reverse().join('')
+        },
+        exibirValor() {
+            this.valorInserido = this.valorDigitado;
+        },
+        getName: function (){
+            console.log("Methods");
+            return this.person.nome + " getName " + this.person.age;
+        }
+    },
+    computed:{
+        fullname(){
+            console.log("Comput");
+            return this.person.nome+ " " + this.person.age;
+        }
+    }
+});
+    </script>
+    
+</body>
+</html>
