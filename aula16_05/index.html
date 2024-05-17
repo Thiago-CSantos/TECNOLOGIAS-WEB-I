@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Watch</title>
+</head>
+
+<body style="background-color: bisque;">
+    <div id="app">
+        <h2>IMC</h2>
+        <div action="" style="display: flex; flex-direction: column; width: 50%; margin: 0 auto;">
+            <label for="Altura">Altura(ex: 1,70)</label>
+            <input type="text" v-model="alt" placeholder="Metros">
+            <label for="Altura">Peso(ex: 69,2)</label>
+            <input type="text" v-model="quilo" placeholder="Quilos">
+
+            <button type="button" @click="exibirIMC()">Calcular</button>
+        </div>
+        <div v-if="resultadoIMC !== null">
+            <p>Seu IMC é: {{ resultadoIMC }}</p>
+        </div>
+
+        <h1>Conversor de moedas(dola para real) dolar(5,13) : </h1>
+        <div style="display: flex; flex-direction: column; width: 50%; margin: 0 auto;">
+            <label for="Dolar">Dolar$</label>
+            <input type="number" v-model="vDolar" value="5,13" placeholder="5,13" disabled>
+            <label for="Real">Real R$: </label>
+            <input type="number" v-model="vReal" placeholder="R$"><br>
+            <button type="button" @click="exibirMoeda()">Calcular</button>
+        </div>
+        <div v-if="exibirMoeda !== null">
+            <p>R$: {{ resultadoMoeda }}</p>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
