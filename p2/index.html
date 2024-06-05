@@ -13,33 +13,107 @@
 <body>
 
     <div id="app">
-
-        <head>
-            <div class="collapse" id="navbarToggleExternalContent" data-bs-theme="dark">
-                <div class="bg-dark p-4">
-                    <h5 class="text-body-emphasis h4">Sistema de Gerenciamento de Vendas</h5>
-                    <div class="d-flex flex-column justify-content-between">
-                        <button v-on:click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
-                            id="cadCliente">Cadastrar Cliente</button>
-                        <button class="btn btn-primary btn-sm w-25 mb-3" id="cadProduto">Cadastrar Produto</button>
-                        <button class="btn btn-primary btn-sm w-25 mb-3" id="cadVendas">Cadastrar Vendas</button>
+        <div class="collapse" id="navbarToggleExternalContent" data-bs-theme="dark">
+            <div class="bg-dark p-4">
+                <h5 class="text-body-emphasis h4">Sistema de Gerenciamento de Vendas</h5>
+                <div class="d-flex flex-column justify-content-between">
+                    <button @click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
+                        id="cadCliente">Cadastrar Cliente</button>
+                    <button class="btn btn-primary btn-sm w-25 mb-3" id="cadProduto">Cadastrar Produto</button>
+                    <button class="btn btn-primary btn-sm w-25 mb-3" id="cadVendas">Cadastrar Vendas</button>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <main style="padding: 20px;">
+            <div v-if="carregaFormulario">
+                <form class="row g-3" @submit.prevent="enviarFormulario">
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputEmail4" v-model="Vemail" required>
                     </div>
+                    <div class="col-md-6">
+                        <label for="inputNome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" v-model="Vnome" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputRua" class="form-label">Rua</label>
+                        <input type="text" class="form-control" id="inputRua" placeholder="1234 Main St" v-model="Vrua"
+                            required>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputBairro" class="form-label">Bairro</label>
+                        <input type="text" class="form-control" id="inputBairro" placeholder="São João, 75 ..."
+                            v-model="Vbairro" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="inputCidade" v-model="Vcidade" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputEstado" class="form-label">Estado</label>
+                        <select id="inputEstado" class="form-select" v-model="Vestados" required>
+                            <option disabled value="">Escolha um estado...</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+            <div v-else>
+                <div v-if="Clientes.length > 0">
+                    <h1>Clientes</h1>
+                    <ul>
+                        <li v-for="(item, index) in Clientes" :key="index">
+                            {{ clientes.email }}<br>
+                            {{ clientes.nome }}<br>
+                            {{ clientes.rua }}<br>
+                            {{ clientes.bairro }}<br>
+                            {{ clientes.cidade }}<br>
+                            {{ clientes.estado }}
+                        </li>
+                    </ul>
+                </div>
+                <div v-else>
+                    <h1>Selecione...</h1>
                 </div>
             </div>
-            <nav class="navbar navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-            </nav>
-        </head>
-        <main>
-            <div v-html="carregaFormulario" style="padding: 20px;">
-            </div>
-            
         </main>
     </div>
 
