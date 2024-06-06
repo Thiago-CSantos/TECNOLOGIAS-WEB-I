@@ -19,8 +19,10 @@
                 <div class="d-flex flex-column justify-content-between">
                     <button @click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
                         id="cadCliente">Cadastrar Cliente</button>
-                    <button class="btn btn-primary btn-sm w-25 mb-3" id="cadProduto">Cadastrar Produto</button>
-                    <button class="btn btn-primary btn-sm w-25 mb-3" id="cadVendas">Cadastrar Vendas</button>
+                    <button @click="actionCadastraProdutos" class="btn btn-primary btn-sm w-25 mb-3"
+                        id="cadProduto">Cadastrar Produto</button>
+                    <button @click="actionCadastraVendas" class="btn btn-primary btn-sm w-25 mb-3"
+                        id="cadVendas">Cadastrar Vendas</button>
                 </div>
             </div>
         </div>
@@ -96,17 +98,43 @@
                     </div>
                 </form>
             </div>
+
+            <div v-if="carregaFormularioProduto">
+                <form class="row g-3" @submit.prevent="enviarFormulario">
+                    <div class="col-md-6">
+                        <label for="inputNome" class="form-label">Nome Produto:</label>
+                        <input type="text" class="form-control" id="inputNome" v-model="Vnome" required>
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Descrição" id="descricaoId" style="height: 100px; width: 50%;"></textarea>
+                        <label for="floatingTextarea">Descrição</label>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputBairro" class="form-label">Preço</label>
+                        <input type="text" class="form-control" id="inputBairro" placeholder="São João, 75 ..."
+                            v-model="Vbairro" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="inputCidade" v-model="Vcidade" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputEstado" class="form-label">Estado</label>
+
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+
             <div v-else>
                 <div v-if="Clientes.length > 0">
                     <h1>Clientes</h1>
                     <ul>
                         <li v-for="(item, index) in Clientes" :key="index">
-                            {{ clientes.email }}<br>
-                            {{ clientes.nome }}<br>
-                            {{ clientes.rua }}<br>
-                            {{ clientes.bairro }}<br>
-                            {{ clientes.cidade }}<br>
-                            {{ clientes.estado }}
+                            {{ item.email }},{{ item.nome }},{{ item.rua }},{{ item.bairro }},{{ item.cidade }},{{
+                            item.estado }}
                         </li>
                     </ul>
                 </div>

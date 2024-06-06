@@ -2,8 +2,12 @@ let app = new Vue({
   el: "#app",
   data: {
     carregaFormulario: false,
+    carregaFormularioProduto: false,
+    carregaFormularioVendas: false,
     clienteExiste: false,
     Clientes: [],
+    Produtos: [],
+    Vendas: [],
     Vemail: '',
     Vnome: '',
     Vrua: '',
@@ -14,6 +18,12 @@ let app = new Vue({
   methods: {
     actionCadastraCliente() {
       this.carregaFormulario = true;
+    },
+    actionCadastraProdutos(){
+      this.carregaFormularioProduto = true;
+    },
+    actionCadastraVendas(){
+      this.carregaFormularioVendas = true;
     },
     enviarFormulario() {
       
