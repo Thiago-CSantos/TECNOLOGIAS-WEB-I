@@ -78,10 +78,10 @@ let app = new Vue({
     enviarFormularioVendas() {
 
       this.Clientes.push({
-          nomeCli: this.Vcliente,
-          produtoSelecionado: this.VprodutoSelecionado,
-          quantidade: this.Vquantidade
-        });
+        nomeCli: this.Vcliente,
+        produtoSelecionado: this.VprodutoSelecionado,
+        quantidade: this.Vquantidade
+      });
 
       this.resetarFormularioVendas();
     },
@@ -107,11 +107,16 @@ let app = new Vue({
       this.carregaFormularioProduto = false;
     },
 
-    resetarFormularioVendas(){
+    resetarFormularioVendas() {
       this.Vcliente = '';
       this.VprodutoSelecionado = '';
       this.Vquantidade = '';
       carregaFormularioVendas = false;
-    }
+    },
+    actionVisualizar() {
+      this.carregaFormulario = false;
+      this.carregaFormularioProduto = false;
+      this.carregaFormularioVendas = false;
+    },
   }
 });

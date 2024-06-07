@@ -17,8 +17,11 @@
             <div class="bg-dark p-4">
                 <h5 class="text-body-emphasis h4">Sistema de Gerenciamento de Vendas</h5>
                 <div class="d-flex flex-column justify-content-between">
-                    <button @click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
-                        id="cadCliente">Cadastrar Cliente</button>
+                    <div class="d-flex justify-content-between">
+                        <button @click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
+                            id="cadCliente">Cadastrar Cliente</button>
+                            <button class="btn btn-primary btn-sm w-25 mb-3">VISUALIZAR</button>
+                    </div>
                     <button @click="actionCadastraProdutos" class="btn btn-primary btn-sm w-25 mb-3"
                         id="cadProduto">Cadastrar Produto</button>
                     <button @click="actionCadastraVendas" class="btn btn-primary btn-sm w-25 mb-3"
@@ -125,7 +128,12 @@
                 <form @submit.prevent="enviarFormularioVendas">
                     <div class="mb-3">
                         <label for="cliente" class="form-label">Cliente:</label>
-                        <input type="text" class="form-control" id="cliente" v-model="Vcliente" required>
+                        <select id="produto" class="form-select" v-model="Vcliente" required>
+                            <option disabled value="">Selecione o produto...</option>
+                            <option v-for="(item, index) in Clientes" :key="index" :value="item">
+                                {{item.nome}}/{{item.email}}</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" id="cliente" v-model="Vcliente" required> -->
                     </div>
                     <div class="mb-3">
                         <label for="produto" class="form-label">Produto:</label>
@@ -160,6 +168,7 @@
                     <h1>Selecione...</h1>
                 </div>
                 <div v-if="Produtos.length > 0">
+                    <h1>Produtos</h1>
                     <ul>
                         <li v-for="(item, index) in Produtos" :key="index">
                             {{item.nome}}, {{item.descricao}}, {{item.preco}}
@@ -169,8 +178,8 @@
                     </ul>
                 </div>
                 <div v-if="Vendas.length > 0">
+                    <h1>Vendas</h1>
                     <ul>
-                        <li>dasds</li>
                         <li v-for="(item, index) in Vendas" :key="index">
                             {{item.nomeCli}}, {{item.produtoSelecionado}}, {{item.quantidade}}
                             <button type="button" class="btn btn-warning">Editar</button>
