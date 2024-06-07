@@ -13,23 +13,39 @@ let app = new Vue({
     Vrua: '',
     Vbairro: '',
     Vcidade: '',
-    Vestados: ''
+    Vestados: '',
+
+    // produto
+    VnomeProduto: '',
+    Vdescricao: '',
+    Vpreco: '',
+
+    // Vendas
+    Vcliente: '',
+    VprodutoSelecionado: '',
+    Vquantidade: '',
   },
   methods: {
     actionCadastraCliente() {
       this.carregaFormulario = true;
+      this.carregaFormularioProduto = false;
+      this.carregaFormularioVendas = false;
     },
-    actionCadastraProdutos(){
+    actionCadastraProdutos() {
       this.carregaFormularioProduto = true;
+      this.carregaFormulario = false;
+      this.carregaFormularioVendas = false;
     },
-    actionCadastraVendas(){
+    actionCadastraVendas() {
       this.carregaFormularioVendas = true;
+      this.carregaFormularioProduto = false;
+      this.carregaFormulario = false;
     },
     enviarFormulario() {
-      
+
       console.log('Dados do formulário:', this.Vemail, this.Vnome, this.Vrua, this.Vbairro, this.Vcidade, this.Vestados);
 
-      
+
       this.Clientes.push({
         email: this.Vemail,
         nome: this.Vnome,
@@ -43,17 +59,59 @@ let app = new Vue({
 
       this.resetarFormulario();
     },
+
+    enviarFormularioProduto() {
+
+      console.log('Dados do formulário de produto:', this.VnomeProduto, this.Vdescricao, this.Vpreco);
+
+      this.Produtos.push({
+        nome: this.VnomeProduto,
+        descricao: this.Vdescricao,
+        preco: this.Vpreco
+      });
+
+      console.log(this.Produtos);
+
+      this.resetarFormularioProduto();
+    },
+
+    enviarFormularioVendas() {
+
+      this.Clientes.push({
+          nomeCli: this.Vcliente,
+          produtoSelecionado: this.VprodutoSelecionado,
+          quantidade: this.Vquantidade
+        });
+
+      this.resetarFormularioVendas();
+    },
+
     resetarFormulario() {
-      
+
       this.Vemail = '';
       this.Vnome = '';
       this.Vrua = '';
       this.Vbairro = '';
       this.Vcidade = '';
       this.Vestados = '';
-
-      
       this.carregaFormulario = false;
+      this.VnomeProduto = '';
+      this.Vdescricao = '';
+      this.Vpreco = '';
     },
+
+    resetarFormularioProduto() {
+      this.VnomeProduto = '';
+      this.Vdescricao = '';
+      this.Vpreco = '';
+      this.carregaFormularioProduto = false;
+    },
+
+    resetarFormularioVendas(){
+      this.Vcliente = '';
+      this.VprodutoSelecionado = '';
+      this.Vquantidade = '';
+      carregaFormularioVendas = false;
+    }
   }
 });
