@@ -17,11 +17,8 @@
             <div class="bg-dark p-4">
                 <h5 class="text-body-emphasis h4">Sistema de Gerenciamento de Vendas</h5>
                 <div class="d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between">
-                        <button @click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
-                            id="cadCliente">Cadastrar Cliente</button>
-                            <button class="btn btn-primary btn-sm w-25 mb-3">VISUALIZAR</button>
-                    </div>
+                    <button @click="actionCadastraCliente" class="btn btn-primary btn-sm w-25 mb-3"
+                        id="cadCliente">Cadastrar Cliente</button>
                     <button @click="actionCadastraProdutos" class="btn btn-primary btn-sm w-25 mb-3"
                         id="cadProduto">Cadastrar Produto</button>
                     <button @click="actionCadastraVendas" class="btn btn-primary btn-sm w-25 mb-3"
@@ -150,43 +147,210 @@
                 </form>
             </div>
 
+
+            <div v-if="Clientes.length > 0">
+                <h1>Clientes</h1>
+                <ul>
+                    <li v-for="(item, index) in Clientes" :key="index">
+                        {{ item.email }}, {{ item.nome }}, {{ item.rua }}, {{ item.bairro }}, {{ item.cidade }}, {{
+                        item.estado }}
+                        <span style="margin-left: 10px;">
+                            <button type="button" class="btn btn-warning" @click="openModal(index)">Editar</button>
+                            <button type="button" class="btn btn-danger" @click="excluirCliente(index)">Excluir</button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
             <div v-else>
-                <div v-if="Clientes.length > 0">
-                    <h1>Clientes</h1>
-                    <ul>
-                        <li v-for="(item, index) in Clientes" :key="index">
-                            {{ item.email }}, {{ item.nome }}, {{ item.rua }}, {{ item.bairro }}, {{ item.cidade }}, {{
-                            item.estado }}
-                            <span style="margin-left: 10px;">
-                                <button type="button" class="btn btn-warning">Editar</button>
-                                <button type="button" class="btn btn-danger">Excluir</button>
-                            </span>
-                        </li>
-                    </ul>
+                <h1>Selecione...</h1>
+            </div>
+            <div v-if="Produtos.length > 0">
+                <h1>Produtos</h1>
+                <ul>
+                    <li v-for="(item, index) in Produtos" :key="index">
+                        {{item.nome}}, {{item.descricao}}, {{item.preco}}
+                        <button type="button" class="btn btn-warning" @click="openModalProduto(index)">Editar</button>
+                        <button type="button" class="btn btn-danger" @click="excluirProduto(index)">Excluir</button>
+                    </li>
+                </ul>
+            </div>
+            <div v-if="Vendas.length > 0">
+                <h1>Vendas</h1>
+                <ul>
+                    <li v-for="(item, index) in Vendas" :key="index">
+                        Cliente: {{item.nomeCli}}, Produto: {{item.produtoSelecionado}}, Quantidade: {{item.quantidade}}
+                        <button type="button" class="btn btn-warning" @click="openModalVenda(index)">Editar</button>
+                        <button type="button" class="btn btn-danger" @click="excluirVenda(index)">Excluir</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Modal editar Clientes-->
+            <div v-show="Veditar != null">
+                <div class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar cliente</h5>
+                                <button type="button" class="btn-close" @click="closeModal"
+                                    aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" @submit.prevent="salvarEdicao">
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inputEmail4" v-model="Vemail"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputNome" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="inputNome" v-model="Vnome" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputRua" class="form-label">Rua</label>
+                                        <input type="text" class="form-control" id="inputRua" placeholder="1234 Main St"
+                                            v-model="Vrua" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputBairro" class="form-label">Bairro</label>
+                                        <input type="text" class="form-control" id="inputBairro"
+                                            placeholder="São João, 75 ..." v-model="Vbairro" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputCidade" class="form-label">Cidade</label>
+                                        <input type="text" class="form-control" id="inputCidade" v-model="Vcidade"
+                                            required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputEstado" class="form-label">Estado</label>
+                                        <select id="inputEstado" class="form-select" v-model="Vestados" required>
+                                            <option disabled value="">Escolha um estado...</option>
+                                            <option disabled value="">Escolha um estado...</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" @click="closeModal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div v-else>
-                    <h1>Selecione...</h1>
+            </div>
+            <!-- Modal editar Produtos -->
+            <div v-show="VeditarProduto != null">
+                <div class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Produto</h5>
+                                <button type="button" class="btn-close" @click="closeModalProduto"
+                                    aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" @submit.prevent="salvarEdicaoProduto">
+                                    <div class="col-md-6">
+                                        <label for="inputNomeProduto" class="form-label">Nome do Produto</label>
+                                        <input type="text" class="form-control" id="inputNomeProduto"
+                                            v-model="VnomeProduto" required>
+                                    </div>
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Descrição" id="descricaoId"
+                                            v-model="Vdescricao" style="height: 100px; width: 50%;"></textarea>
+                                        <label for="floatingTextarea">Descrição</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="inputPreco" class="form-label">Preço</label>
+                                        <input type="number" class="form-control" id="inputPreco" v-model="Vpreco"
+                                            required>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    @click="closeModalProduto">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div v-if="Produtos.length > 0">
-                    <h1>Produtos</h1>
-                    <ul>
-                        <li v-for="(item, index) in Produtos" :key="index">
-                            {{item.nome}}, {{item.descricao}}, {{item.preco}}
-                            <button type="button" class="btn btn-warning">Editar</button>
-                            <button type="button" class="btn btn-danger">Excluir</button>
-                        </li>
-                    </ul>
+                <div class="modal-backdrop fade show"></div>
+            </div>
+            <!-- Modal ediat Vendas -->
+            <div v-show="VeditarVenda !== null">
+                <div class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Venda</h5>
+                                <button type="button" class="btn-close" @click="closeModalVenda"
+                                    aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" @submit.prevent="salvarEdicaoVenda">
+                                    <div class="mb-3">
+                                        <label for="cliente" class="form-label">Cliente:</label>
+                                        <select id="cliente" class="form-select" v-model="Vcliente" required>
+                                            <option disabled value="">Selecione o cliente...</option>
+                                            <option v-for="(item, index) in Clientes" :key="index" :value="item.nome">{{
+                                                item.nome }}/{{ item.email }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="produto" class="form-label">Produto:</label>
+                                        <select id="produto" class="form-select" v-model="VprodutoSelecionado" required>
+                                            <option disabled value="">Selecione o produto...</option>
+                                            <option v-for="(item, index) in Produtos" :key="index" :value="item.nome">{{
+                                                item.nome }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="quantidade" class="form-label">Quantidade:</label>
+                                        <input type="number" class="form-control" id="quantidade" v-model="Vquantidade"
+                                            required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" @click="closeModalVenda">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div v-if="Vendas.length > 0">
-                    <h1>Vendas</h1>
-                    <ul>
-                        <li v-for="(item, index) in Vendas" :key="index">
-                            {{item.nomeCli}}, {{item.produtoSelecionado}}, {{item.quantidade}}
-                            <button type="button" class="btn btn-warning">Editar</button>
-                            <button type="button" class="btn btn-danger">Excluir</button>
-                        </li>
-                    </ul>
-                </div>
+                <div class="modal-backdrop fade show"></div>
             </div>
 
         </main>
